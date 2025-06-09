@@ -14,7 +14,7 @@ tr, td {
     border: solid;
     border-width: 1px;
     text-align: center;
-    width: 75px;
+    width: 150px;
     border-collapse: collapse;
     padding: 0;
 }
@@ -24,9 +24,9 @@ tr, td {
 }
 
 input.board-space {
-    width: 75px;
-    height: 75px;
-    font-size: 28px;
+    width: 150px;
+    height: 150px;
+    font-size: 52px;
     text-align: center;
     cursor: pointer;
     border: none;
@@ -41,9 +41,9 @@ input.winning-space {
 }
 
 #start-clear {
-    width: 75px;
-    height: 25px;
-    font-size: 18px;
+    width: 200px;
+    height: 50px;
+    font-size: 24px;
     cursor: pointer;
     border: none;
     color: white;
