@@ -19,16 +19,25 @@ tr, td {
     padding: 0;
 }
 
+.board-space:disabled {
+    cursor: not-allowed;
+}
+
 input.board-space {
     width: 75px;
     height: 75px;
-    font-size: 24px;
+    font-size: 28px;
     text-align: center;
     cursor: pointer;
     border: none;
     background-color: white;
     border-collapse: collapse;
 
+}
+
+input.winning-space {
+    color: red;
+    font-weight: bold;
 }
 
 #start-clear {
@@ -56,5 +65,14 @@ input.board-space {
 
 #start-clear[value="Clear"]:hover {
     background-color: darkred;
+}
+
+#start-clear:disabled {
+    background-color: gray;
+    cursor: not-allowed;
+}
+
+#start-clear:disabled:hover {
+    background-color: gray;
 }
  
