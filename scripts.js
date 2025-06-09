@@ -42,7 +42,7 @@ function setGameOver(bool, player = '') {
         start_clear_button.disabled = false; 
         setTimeout(() => {
             alert("It's a draw!");;
-        }, 100); 
+        }, 150); 
         return;
     }
     if (game_over && player === human_player) {
@@ -50,7 +50,7 @@ function setGameOver(bool, player = '') {
         start_clear_button.disabled = false;
         setTimeout(() => {
             alert("You Win!");;
-        }, 100); 
+        }, 150); 
         return;
     }
     if (game_over && player === computer_player) {
@@ -58,7 +58,7 @@ function setGameOver(bool, player = '') {
         start_clear_button.disabled = false;  
         setTimeout(() => {
             alert("Computer Wins!");;
-        }, 100); 
+        }, 150); 
         return;
     }
     swapPlayer(player);
@@ -70,7 +70,7 @@ function swapPlayer(player) {
         disableBoard();
         setTimeout(() => {
             computerMove();
-        }, 500);
+        }, 1000);
     } else if (player === computer_player) {
         enableBoard();
         current_player = human_player; 
@@ -82,7 +82,9 @@ function startGame() {
     if (start_clear_button.value === 'Start') {
         start_clear_button.value = 'Clear';
         start_clear_button.disabled = true;
-        computerMove();
+        setTimeout(() => {
+            computerMove();
+        }, 500);
     }
     else {
         resetGame();
@@ -118,7 +120,9 @@ function computerMove() {
     comp_held_positions.push(board[computer_move].id);
     current_move++;
     if (current_move === 2) {
-        computerMove();
+        setTimeout(() => {
+            computerMove();
+        }, 500);
     }
     if (isWinner(computer_player)) {
         return;
