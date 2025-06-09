@@ -19,54 +19,6 @@ let start_clear_button = document.querySelector('#start-clear');
 const board = document.querySelectorAll('.board-space');
 
 // Game state logic
-function startGame() {
-    if (start_clear_button.value === 'Start') {
-        start_clear_button.value = 'Clear';
-        start_clear_button.disabled = true;
-        computerMove();
-    }
-    else {
-        resetGame();
-    }
-}
-
-document.addEventListener('click', function(event) {
-if (event.target.classList.contains('board-space') && 
-    !game_over && current_player === human_player) {
-    playerMove(event);
-}
-});
-
-function playerMove(event) {
-    const target = event.target;
-    if (target.value === '' && !game_over) {
-        target.value = human_player;
-        human_held_positions.push(target.id);
-        current_move++;
-        if (isWinner(human_player)) {
-            return;
-        }
-        swapPlayer(human_player);
-    }
-}
-
-function computerMove() {
-    let computer_move = Math.floor(Math.random() * num_board_spaces);
-    while (board[computer_move].value !== '' || game_over) {
-        computer_move = Math.floor(Math.random() * num_board_spaces);
-    }
-    board[computer_move].value = computer_player;
-    comp_held_positions.push(board[computer_move].id);
-    current_move++;
-    if (current_move === 2) {
-        computerMove();
-    }
-    if (isWinner(computer_player)) {
-        return;
-    }
-    swapPlayer(computer_player);
-}
-
 function isWinner(player) {
     const held_positions = player === human_player ? human_held_positions : comp_held_positions;
     for (const combo of winning_combos) {
@@ -126,6 +78,54 @@ function swapPlayer(player) {
 }
 
 // GUI Logic
+function startGame() {
+    if (start_clear_button.value === 'Start') {
+        start_clear_button.value = 'Clear';
+        start_clear_button.disabled = true;
+        computerMove();
+    }
+    else {
+        resetGame();
+    }
+}
+
+document.addEventListener('click', function(event) {
+if (event.target.classList.contains('board-space') && 
+    !game_over && current_player === human_player) {
+    playerMove(event);
+}
+});
+
+function playerMove(event) {
+    const target = event.target;
+    if (target.value === '' && !game_over) {
+        target.value = human_player;
+        human_held_positions.push(target.id);
+        current_move++;
+        if (isWinner(human_player)) {
+            return;
+        }
+        swapPlayer(human_player);
+    }
+}
+
+function computerMove() {
+    let computer_move = Math.floor(Math.random() * num_board_spaces);
+    while (board[computer_move].value !== '' || game_over) {
+        computer_move = Math.floor(Math.random() * num_board_spaces);
+    }
+    board[computer_move].value = computer_player;
+    comp_held_positions.push(board[computer_move].id);
+    current_move++;
+    if (current_move === 2) {
+        computerMove();
+    }
+    if (isWinner(computer_player)) {
+        return;
+    }
+    swapPlayer(computer_player);
+}
+
 function disableBoard() {
     board.forEach(space => {
         space.disabled = true;
