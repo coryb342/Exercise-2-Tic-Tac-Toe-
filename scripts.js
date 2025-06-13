@@ -10,6 +10,7 @@ const human_player = 'X';
 const computer_player = 'O';
 const num_board_spaces = 9;
 const winning_combos = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7], [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]];
+let game_started = false;
 let game_over = false;
 let current_player = computer_player;
 let current_move = 1;
@@ -70,45 +71,66 @@ function swapPlayer(player) {
         disableBoard();
         setTimeout(() => {
             computerMove();
-        }, 1000);
+        }, 500);
     } else if (player === computer_player) {
-        enableBoard();
+        setTimeout(() => {
+            enableBoard();
+        }, 500);
         current_player = human_player; 
     }
 }
 
 // GUI Logic
-function startGame() {
+function startGame(event) {
     if (start_clear_button.value === 'Start') {
         start_clear_button.value = 'Clear';
         start_clear_button.disabled = true;
-        setTimeout(() => {
-            computerMove();
-        }, 500);
-    }
-    else {
+        if (event) {
+            current_player = human_player;
+            playerMove(event);
+        }
+        if (current_player === computer_player) {
+            game_started = true;
+            disableBoard();
+            setTimeout(() => {
+                computerMove();
+            }, 500);
+        }
+        
+    } else {
         resetGame();
     }
 }
 
 document.addEventListener('click', function(event) {
-if (event.target.classList.contains('board-space') && 
-    !game_over && current_player === human_player) {
-    playerMove(event);
-}
+    if (!game_started && event.target.classList.contains('board-space')) {
+        current_player = human_player;
+        game_started = true;
+        startGame(event);
+        return;
+    }
+
+    if (event.target.classList.contains('board-space') && !game_over && current_player === human_player) {
+        playerMove(event);
+    }
 });
 
 function playerMove(event) {
     const target = event.target;
     if (target.value === '' && !game_over) {
         target.value = human_player;
-        human_held_positions.push(target.id);
         current_move++;
+        human_held_positions.push(target.id);
         if (isWinner(human_player)) {
             return;
         }
-        swapPlayer(human_player);
+        if (current_move <= 2 && current_player === human_player) {
+            return;
+        } else {
+            swapPlayer(human_player);
+        }
     }
+    return;
 }
 
 function computerMove() {
@@ -120,6 +142,7 @@ function computerMove() {
     comp_held_positions.push(board[computer_move].id);
     current_move++;
     if (current_move === 2) {
+        disableBoard();
         setTimeout(() => {
             computerMove();
         }, 500);
@@ -144,14 +167,14 @@ function enableBoard() {
 
 function resetGame() {
     game_over = false;
+    game_started = false;
     current_player = computer_player;
     current_move = 1;
     comp_held_positions = [];
     human_held_positions = [];
     start_clear_button.value = 'Start';
     start_clear_button.disabled = false;
-    disableBoard();
-    
+    enableBoard();
     board.forEach(space => {
         space.value = '';
         space.classList.remove('winning-space');
