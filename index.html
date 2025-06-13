@@ -8,22 +8,23 @@
 
     <body>
         <div>
-            <h1>Tic Tac Toe</h1>
+            <h1>Accelerated Tic Tac Toe</h1>
+            <p>If you would like to be first, choose two squares. If you want the computer to play first, press Start!</p>
             <table class="tic-tac-toe-board">
                 <tr>
-                    <td><input type="text" id="1" class="board-space" disabled="true"></td>
-                    <td><input type="text" id="2" class="board-space" disabled="true"></td>
-                    <td><input type="text" id="3" class="board-space" disabled="true"></td>
+                    <td><input type="button" id="1" class="board-space"></td>
+                    <td><input type="button" id="2" class="board-space"></td>
+                    <td><input type="button" id="3" class="board-space"></td>
                 </tr>
                 <tr>
-                    <td><input type="text" id="4" class="board-space" disabled="true"></td>
-                    <td><input type="text" id="5" class="board-space" disabled="true"></td>
-                    <td><input type="text" id="6" class="board-space" disabled="true"></td>
+                    <td><input type="button" id="4" class="board-space"></td>
+                    <td><input type="button" id="5" class="board-space"></td>
+                    <td><input type="button" id="6" class="board-space"></td>
                 </tr>
                 <tr>
-                    <td><input type="text" id="7" class="board-space" disabled="true"></td>
-                    <td><input type="text" id="8" class="board-space" disabled="true"></td>
-                    <td><input type="text" id="9" class="board-space" disabled="true"></td>
+                    <td><input type="button" id="7" class="board-space"></td>
+                    <td><input type="button" id="8" class="board-space"></td>
+                    <td><input type="button" id="9" class="board-space"></td>
                 </tr>
             </table>
             <input type="button" id="start-clear" value="Start" onclick="startGame()">
