@@ -95,7 +95,7 @@ function setGameOver(bool, player = '') {
         }, 150); 
         return;
     }
-    swapPlayer(player);
+    return;
 }
 
 /**
