@@ -5,11 +5,32 @@
  * Description: This script is used for the tick-tac-toe game.
  */
 
-
+/**
+ * Human Player Icon
+ * @const {string}
+ */
 const human_player = 'X';
+/**
+ * Computer Player Icon
+ * @const {string}
+ */
 const computer_player = 'O';
+/**
+ * Number of board spaces
+ * @const {number}
+ */
 const num_board_spaces = 9;
+/**
+ * Winning combinations for the game
+ * @const {Array}
+ */
 const winning_combos = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7], [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]];
+/**
+ * Board spaces in the game
+ * @const {NodeList}
+ */                         
+const board = document.querySelectorAll('.board-space');
+
 let game_started = false;
 let game_over = false;
 let current_player = computer_player;
@@ -17,9 +38,15 @@ let current_move = 1;
 let comp_held_positions = [];
 let human_held_positions = [];
 let start_clear_button = document.querySelector('#start-clear');
-const board = document.querySelectorAll('.board-space');
 
 // Game state logic
+
+/**
+ * Checks if the player has a winning combination or if the game is a draw.
+ * Highlights the winning combination if the player has won.
+ * @param {string} player - The player to check for a win.
+ * @returns boolean - Returns true if the player has won, false otherwise.
+ */
 function isWinner(player) {
     const held_positions = player === human_player ? human_held_positions : comp_held_positions;
     for (const combo of winning_combos) {
@@ -36,6 +63,12 @@ function isWinner(player) {
     return false;
 }
 
+/**
+ * Sets the game over state and displays an alert based on the outcome.
+ * @param {boolean} bool - The game over state.
+ * @param {string} player - The player who won, if applicable.
+ * @return {void}
+ */
 function setGameOver(bool, player = '') {
     game_over = bool;
     if (game_over && player === '') {
@@ -65,6 +98,11 @@ function setGameOver(bool, player = '') {
     swapPlayer(player);
 }
 
+/**
+ * Swaps the current player and handles the game state accordingly.
+ * @param {string} player - The current player.
+ * @return {void}
+ */
 function swapPlayer(player) {
     if (player === human_player) {
         current_player = computer_player;
@@ -81,10 +119,17 @@ function swapPlayer(player) {
 }
 
 // GUI Logic
-function startGame(event) {
+
+/**
+ * Starts the game or clears the board based on the button state.
+ * If the button value is 'Start', it initializes the game.
+ * If the button value is 'Clear', it resets the game state.
+ * @param {Event} event - The click event on the board space, signifying human player starting the game. Defaults to null.
+ * @return {void}
+ */
+function startGame(event = null) {
     if (start_clear_button.value === 'Start') {
         start_clear_button.value = 'Clear';
-        start_clear_button.disabled = true;
         if (event) {
             current_player = human_player;
             playerMove(event);
@@ -102,6 +147,13 @@ function startGame(event) {
     }
 }
 
+/**
+ * Handles the click event on the board spaces.
+ * If the game has not started, it initializes the game.
+ * If the game is ongoing and the clicked space is empty, it processes the player's move.
+ * @param {Event} event - The click event on the board space.
+ * @return {void}
+ */
 document.addEventListener('click', function(event) {
     if (!game_started && event.target.classList.contains('board-space')) {
         current_player = human_player;
@@ -115,6 +167,14 @@ document.addEventListener('click', function(event) {
     }
 });
 
+/**
+ * Handles the player's move on the board.
+ * If the clicked space is empty and the game is not over, it marks the space with the human player's symbol.
+ * It checks for a win or a draw after the move.
+ * If the game is not over, it swaps the player to the computer.
+ * @param {Event} event - The click event on the board space.
+ * @return {void}
+ */
 function playerMove(event) {
     const target = event.target;
     if (target.value === '' && !game_over) {
@@ -133,6 +193,13 @@ function playerMove(event) {
     return;
 }
 
+/**
+ * Handles the computer's move on the board.
+ * It randomly selects an empty space on the board, marks it with the computer player's symbol,
+ * and checks for a win or a draw after the move.
+ * If the game is not over, it swaps the player to the human.
+ * @return {void}
+ */
 function computerMove() {
     let computer_move = Math.floor(Math.random() * num_board_spaces);
     while (board[computer_move].value !== '' || game_over) {
@@ -153,18 +220,34 @@ function computerMove() {
     swapPlayer(computer_player);
 }
 
+/**
+ * Disables all board spaces, preventing further moves.
+ * This is used when the game is over or when the computer is making a move.
+ * @return {void}
+ */
 function disableBoard() {
     board.forEach(space => {
         space.disabled = true;
     });
 }
 
+/**
+ * Enables all board spaces, allowing the player to make moves.
+ * This is used when the game is reset or when it's the player's turn.
+ * @return {void}
+ */
 function enableBoard() {
     board.forEach(space => {
         space.disabled = false;
     });
 }
 
+/**
+ * Resets the game state, clearing the board and resetting all variables.
+ * This is called when the 'Clear' button is clicked.
+ * It also resets the button to 'Start' and enables the board for a new game.
+ * @return {void}
+ */
 function resetGame() {
     game_over = false;
     game_started = false;
@@ -181,6 +264,12 @@ function resetGame() {
     });
 }
 
+/**
+ * Highlights the winning combination on the board.
+ * It adds a specific class to the winning spaces to visually indicate the win.
+ * @param {Array} combo - The winning combination of positions.
+ * @return {void}
+ */
 function highligtWinningCombo(combo) {
     combo.forEach(pos => {
         const space = document.getElementById(pos);
